@@ -7,7 +7,7 @@ public abstract class UnitWrapper<U> {
     private U unit;
 
     public UnitWrapper(U unit) {
-
+        this.unit = unit;
     }
 
 
