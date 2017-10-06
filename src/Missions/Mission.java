@@ -8,9 +8,7 @@ import java.util.List;
 
 public abstract class Mission implements Comparator<UnitWrapper> {
 
-    private boolean completed = false;
-    private MissionManager mm;
-
+    protected MissionManager mm;
 
     private float priority;
 
@@ -19,16 +17,11 @@ public abstract class Mission implements Comparator<UnitWrapper> {
         this.mm = missionManager;
     }
 
-    private UnitWrapper worker;
+    private UnitWrapper unit;
 
-    public void onDelete() {
-        if (!completed)
-            mm.addMission(this);
-    }
+    public abstract void onDelete();
 
-    public void onStart() {
-
-    }
+    public abstract void onStart();
 
     public boolean isAllowedToAcceptThisMission(UnitWrapper unit) {
         return true;
@@ -54,20 +47,14 @@ public abstract class Mission implements Comparator<UnitWrapper> {
         this.priority = priority;
     }
 
-    public boolean isCompleted() {
-        return completed;
-    }
-
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
-    }
+    public abstract boolean checkCompleted();
 
     public UnitWrapper getUnit() {
-        return worker;
+        return unit;
     }
 
     public void setUnit(UnitWrapper unit) {
-        this.worker = worker;
+        this.unit = unit;
     }
 
 

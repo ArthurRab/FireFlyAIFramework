@@ -25,7 +25,6 @@ public abstract class UnitWrapper<U> {
         return mission != null;
     }
 
-
     public boolean willTakeMission(Mission m) {
         return hasMission() || m.getPriority() > mission.getPriority();
     }
@@ -45,7 +44,7 @@ public abstract class UnitWrapper<U> {
     }
 
     public void update() {
-        if (mission != null && mission.isCompleted()) {
+        if (mission != null && mission.checkCompleted()) {
             deleteMission();
         }
     }

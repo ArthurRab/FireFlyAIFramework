@@ -3,6 +3,8 @@ package Missions;
 import Unit.UnitWrapper;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.PriorityQueue;
 
 public class MissionManager {
@@ -31,13 +33,23 @@ public class MissionManager {
         pendingMissions.add(m);
     }
 
-    public void distributeMissions(Iterable<UnitWrapper> units) {
+    public void distributeMissions(Collection<UnitWrapper> unitCollection) {
+        ArrayList<UnitWrapper> units = new ArrayList<UnitWrapper>(unitCollection);
+        Collections.sort(units, (o1, o2) -> Float.compare(o1.getMission().getPriority(), o2.getMission().getPriority()));
+        int maxIndex = units.size();
+
+
+        Mission m;
         while (!pendingMissions.isEmpty()) {
-            Mission m = pendingMissions.poll();
+            m = pendingMissions.poll();
             ArrayList<UnitWrapper> applicants = new ArrayList<>();
-            for (UnitWrapper u : units) {
-                if (m.isAllowedToAcceptThisMission((u)) && u.willTakeMission(m)) {
-                    applicants.add(u);
+            for (int i = 0; i < maxIndex; i++) {
+                if (m.isAllowedToAcceptThisMission((units.get(i))) && units.get(i).willTakeMission(m)) {
+                    applicants.add(units.get(i));
+                }
+                if (units.get(i).getMission().getPriority() > m.getPriority()) {
+                    maxIndex = i;
+                    break;
                 }
             }
 
